@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.Button;
+import android.widget.ImageView;
 
 
 public class MainActivity extends Activity {
@@ -60,6 +61,7 @@ public class MainActivity extends Activity {
     public static class PlaceholderFragment extends Fragment {
 
         Button killbtn, revivebtn;
+        ImageView sword;
 
         public PlaceholderFragment() {
         }
@@ -70,6 +72,7 @@ public class MainActivity extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
             killbtn = (Button) rootView.findViewById(R.id.killbutton);
+            sword = (ImageView) rootView.findViewById(R.id.sword);
             killbtn.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     String search = "ps | grep -F com.android.bluetooth | grep -v -F grep | awk '{print $2}'";
@@ -88,6 +91,7 @@ public class MainActivity extends Activity {
                             Log.d("Aoshi", "Lives — " + lives);
                             if (ret != 0 || lives >=9) {
                                 status=DEAD;
+                                sword.setVisibility(View.VISIBLE);
                             }
                             lives++;
                         }while(status);
@@ -106,6 +110,7 @@ public class MainActivity extends Activity {
                     BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
                     if (!mBluetoothAdapter.isEnabled()) {
                         mBluetoothAdapter.enable();
+                        sword.setVisibility(View.INVISIBLE);
                     }
                 }
             });

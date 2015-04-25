@@ -19,9 +19,8 @@
         android:layout_height="wrap_content"
         android:text="Revive Bluetooth"
         android:id="@+id/revivebutton"
-        android:layout_below="@+id/killbutton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="127dp" />
+        android:layout_above="@+id/textView2"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,7 +29,6 @@
         android:id="@+id/textView"
         android:textSize="15dp"
         android:paddingBottom="10dp"
-        android:layout_marginTop="74dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
@@ -40,7 +38,20 @@
         android:text="Clicking this will send Izanagi-no-Mikoto into the underworld to retrieve your bluetooth service."
         android:id="@+id/textView2"
         android:textSize="15dp"
-        android:layout_below="@+id/revivebutton"
-        android:layout_alignParentStart="true"
-        android:paddingTop="10dp" />
+        android:paddingTop="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sword"
+        android:src="@mipmap/sword"
+        android:visibility="invisible"
+        android:textAlignment="center"
+        android:maxWidth="520px"
+        android:maxHeight="223px"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
