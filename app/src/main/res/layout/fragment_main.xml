@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity$PlaceholderFragment">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kill Bluetooth"
+        android:id="@+id/killbutton"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Revive Bluetooth"
+        android:id="@+id/revivebutton"
+        android:layout_below="@+id/killbutton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="127dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clicking this button releases a horde of angry samurai on your bluetooth service in an attempt to slaughter it."
+        android:id="@+id/textView"
+        android:textSize="15dp"
+        android:paddingBottom="10dp"
+        android:layout_marginTop="74dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clicking this will send Izanagi-no-Mikoto into the underworld to retrieve your bluetooth service."
+        android:id="@+id/textView2"
+        android:textSize="15dp"
+        android:layout_below="@+id/revivebutton"
+        android:layout_alignParentStart="true"
+        android:paddingTop="10dp" />
+</RelativeLayout>
