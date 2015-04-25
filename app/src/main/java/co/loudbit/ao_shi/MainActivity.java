@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.bluetooth.BluetoothAdapter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 
 public class MainActivity extends Activity {
@@ -61,7 +63,8 @@ public class MainActivity extends Activity {
     public static class PlaceholderFragment extends Fragment {
 
         Button killbtn, revivebtn;
-        ImageView sword;
+        ImageView sword, bt, btfail;
+        ProgressBar progress;
 
         public PlaceholderFragment() {
         }
@@ -73,49 +76,110 @@ public class MainActivity extends Activity {
 
             killbtn = (Button) rootView.findViewById(R.id.killbutton);
             sword = (ImageView) rootView.findViewById(R.id.sword);
+            bt = (ImageView) rootView.findViewById(R.id.bt);
+            btfail = (ImageView) rootView.findViewById(R.id.btfail);
+            progress = (ProgressBar) rootView.findViewById(R.id.progressBar);
             killbtn.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    String search = "ps | grep -F com.android.bluetooth | grep -v -F grep | awk '{print $2}'";
-                    String[] killstr ={"su","-c", "kill -9 $(" + search +")"};
-                    String[] searchstr={"su","-c", search + " | grep -E [0-9]+"};
-                    try {
-                        boolean status = ALIVE;
-                        int ret = 0, lives=0;
-                        do {
-                            Process p = Runtime.getRuntime().exec(killstr);
-                            ret = p.waitFor();
-                            Log.d("Aoshi", "Kill — return value " + ret);
-                            p = Runtime.getRuntime().exec(searchstr);
-                            ret = p.waitFor();
-                            Log.d("Aoshi", "search — return value " + ret);
-                            Log.d("Aoshi", "Lives — " + lives);
-                            if (ret != 0 || lives >=9) {
-                                status=DEAD;
-                                sword.setVisibility(View.VISIBLE);
-                            }
-                            lives++;
-                        }while(status);
-                    }catch(Exception e)
-                    {
-                        //do something
-                    }
-                    //Disable bluetooth
-                    BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                    mBluetoothAdapter.disable();
+                    new KillBluetoothService().execute(killbtn);
+
                 }
             });
             revivebtn = (Button) rootView.findViewById(R.id.revivebutton);
             revivebtn.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                    if (!mBluetoothAdapter.isEnabled()) {
-                        mBluetoothAdapter.enable();
-                        sword.setVisibility(View.INVISIBLE);
-                    }
+                    new ReviveBluetoothService().execute(revivebtn);
                 }
             });
 
             return rootView;
         }
+
+        private class KillBluetoothService extends AsyncTask<Button,Void,Void> {
+
+            protected Void doInBackground(Button... btn)
+            {
+                String search = "ps | grep -F com.android.bluetooth | grep -v -F grep | awk '{print $2}'";
+                String[] killstr ={"su","-c", "kill -9 $(" + search +")"};
+                String[] searchstr={"su","-c", search + " | grep -E [0-9]+"};
+                try {
+                    boolean status = ALIVE;
+                    int ret = 0, lives=0;
+                    do {
+                        Process p = Runtime.getRuntime().exec(killstr);
+                        ret = p.waitFor();
+                        p = Runtime.getRuntime().exec(searchstr);
+                        ret = p.waitFor();
+                        if (ret != 0 || lives >=9) {
+                            status=DEAD;
+                        }
+                        lives++;
+                    }while(status);
+                }catch(Exception e)
+                {
+                    Log.d("Aoshi", e.toString());
+                }
+                //Disable bluetooth
+                BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                mBluetoothAdapter.disable();
+                return null;
+            }
+            protected void onPreExecute(){
+                killbtn.setClickable(false);
+                revivebtn.setClickable(false);
+                sword.setVisibility(View.INVISIBLE);
+                bt.setVisibility(View.INVISIBLE);
+                btfail.setVisibility(View.INVISIBLE);
+                progress.setVisibility(View.VISIBLE);
+            }
+
+            protected void onPostExecute(Void input)
+            {
+                killbtn.setClickable(true);
+                revivebtn.setClickable(true);
+                progress.setVisibility(View.INVISIBLE);
+                sword.setVisibility(View.VISIBLE);
+            }
+        }
+
+        private class ReviveBluetoothService extends AsyncTask<Button,Void,Void> {
+
+            protected Void doInBackground(Button... btn)
+            {
+                BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                if (!mBluetoothAdapter.isEnabled()) {
+                    mBluetoothAdapter.enable();
+                }
+                try{Thread.sleep(3000);}catch(Exception e){Log.d("Aoshi", e.toString());}
+                if (!mBluetoothAdapter.isEnabled()) {
+                    mBluetoothAdapter.enable();
+                }
+                try{Thread.sleep(6000);}catch(Exception e){Log.d("Aoshi", e.toString());}
+                return null;
+            }
+
+            protected void onPreExecute() {
+                bt.setVisibility(View.INVISIBLE);
+                btfail.setVisibility(View.INVISIBLE);
+                killbtn.setClickable(false);
+                revivebtn.setClickable(false);
+                sword.setVisibility(View.INVISIBLE);
+                progress.setVisibility(View.VISIBLE);
+            }
+
+            protected void onPostExecute(Void input)
+            {
+                progress.setVisibility(View.INVISIBLE);
+                killbtn.setClickable(true);
+                revivebtn.setClickable(true);
+                BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                if (mBluetoothAdapter.isEnabled()) {
+                    bt.setVisibility(View.VISIBLE);
+                }else{
+                    btfail.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+
     }
 }
