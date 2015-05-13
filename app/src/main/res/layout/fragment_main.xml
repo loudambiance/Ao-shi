@@ -11,36 +11,29 @@
         android:layout_height="wrap_content"
         android:text="Kill Bluetooth"
         android:id="@+id/killbutton"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true" />
+        android:background="@color/primary"
+        android:theme="@style/AppTheme"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/progressBar"
+        android:elegantTextHeight="true"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Revive Bluetooth"
         android:id="@+id/revivebutton"
-        android:layout_above="@+id/textView2"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Clicking this button releases a horde of angry samurai on your bluetooth service in an attempt to slaughter it."
-        android:id="@+id/textView"
-        android:textSize="15dp"
-        android:paddingBottom="10dp"
+        android:theme="@style/AppTheme"
+        android:background="@color/primary"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Clicking this will send Izanagi-no-Mikoto into the underworld to retrieve your bluetooth service."
-        android:id="@+id/textView2"
-        android:textSize="15dp"
-        android:paddingTop="10dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_toStartOf="@+id/progressBar"
+        android:paddingEnd="5dp"
+        android:paddingStart="5dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp" />
 
     <ImageView
         android:layout_width="wrap_content"
