@@ -20,9 +20,6 @@ import android.widget.ProgressBar;
 
 public class MainActivity extends Activity {
 
-    final static boolean ALIVE = true;
-    final static boolean DEAD = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,29 +96,7 @@ public class MainActivity extends Activity {
 
             protected Void doInBackground(Button... btn)
             {
-                String search = "ps | grep -F com.android.bluetooth | grep -v -F grep | awk '{print $2}'";
-                String[] killstr ={"su","-c", "kill -9 $(" + search +")"};
-                String[] searchstr={"su","-c", search + " | grep -E [0-9]+"};
-                try {
-                    boolean status = ALIVE;
-                    int ret = 0, lives=0;
-                    do {
-                        Process p = Runtime.getRuntime().exec(killstr);
-                        ret = p.waitFor();
-                        p = Runtime.getRuntime().exec(searchstr);
-                        ret = p.waitFor();
-                        if (ret != 0 || lives >=9) {
-                            status=DEAD;
-                        }
-                        lives++;
-                    }while(status);
-                }catch(Exception e)
-                {
-                    Log.d("Aoshi", e.toString());
-                }
-                //Disable bluetooth
-                BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                mBluetoothAdapter.disable();
+                AoShi.KillBlueTooth();
                 return null;
             }
             protected void onPreExecute(){
@@ -146,15 +121,7 @@ public class MainActivity extends Activity {
 
             protected Void doInBackground(Button... btn)
             {
-                BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                if (!mBluetoothAdapter.isEnabled()) {
-                    mBluetoothAdapter.enable();
-                }
-                try{Thread.sleep(3000);}catch(Exception e){Log.d("Aoshi", e.toString());}
-                if (!mBluetoothAdapter.isEnabled()) {
-                    mBluetoothAdapter.enable();
-                }
-                try{Thread.sleep(6000);}catch(Exception e){Log.d("Aoshi", e.toString());}
+                AoShi.ReviveBlueTooth();
                 return null;
             }
 

@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="@dimen/widget_margin" android:background="@android:color/transparent">
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="REVIVE"
+        android:id="@+id/button"
+        android:layout_alignParentStart="true"
+        android:theme="@android:style/Widget.Material.Light.Button.Borderless.Colored"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/windowbg" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="KILL"
+        android:id="@+id/button2"
+        android:layout_toEndOf="@+id/button"
+        android:theme="@android:style/Widget.Material.Light.Button.Borderless.Colored"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/windowbg" />
+
+</RelativeLayout>
